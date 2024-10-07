@@ -1,5 +1,5 @@
-# merkle-vs-verkle
-benchmark against verkle and merkle  
+# verkle-or-merkle
+simple benchmark against verkle and merkle  
 proofs are encoded to json  
 
 # parameters
