@@ -116,6 +116,9 @@ func benchJustCreateMerkleProof(size int64, b *testing.B) {
 		m.WithHashType(sha3.New512()),
 		m.WithSalt(false),
 	)
+	if err != nil {
+		b.Fatal(err)
+	}
 	b.StartTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -165,18 +168,23 @@ func benchCreateAndSerializeMerkleProof(size int64, b *testing.B) error {
 		m.WithHashType(sha3.New512()),
 		m.WithSalt(false),
 	)
+	if err != nil {
+		b.Fatal(err)
+	}
 	b.StartTimer()
 
-	proof, err := root.GenerateProof(data[0], 0)
-	if err != nil {
-		return err
-	}
+	for i := 0; i < b.N; i++ {
+		proof, err := root.GenerateProof(data[0], 0)
+		if err != nil {
+			return err
+		}
 
-	proofMarshal, err := json.Marshal(*proof)
-	if err != nil {
-		return err
+		proofMarshal, err := json.Marshal(*proof)
+		if err != nil {
+			return err
+		}
+		b.Logf("proof size: %d", len(proofMarshal))
 	}
-	b.Logf("proof size: %d", len(proofMarshal))
 
 	return nil
 }
@@ -202,28 +210,30 @@ func benchCreateAndSerializeVerkleProof(size int64, b *testing.B) error {
 
 	b.StartTimer()
 
-	proof, _, _, _, err := v.MakeVerkleMultiProof(node, nil, [][]byte{keys[0]}, nil)
-	if err != nil {
-		return err
-	}
+	for i := 0; i < b.N; i++ {
+		proof, _, _, _, err := v.MakeVerkleMultiProof(node, nil, [][]byte{keys[0]}, nil)
+		if err != nil {
+			return err
+		}
 
-	verkleProof, stateDiff, err := v.SerializeProof(proof)
-	if err != nil {
-		return err
-	}
+		verkleProof, stateDiff, err := v.SerializeProof(proof)
+		if err != nil {
+			return err
+		}
 
-	vproof, err := verkleProof.MarshalJSON()
-	if err != nil {
-		return err
-	}
+		vproof, err := verkleProof.MarshalJSON()
+		if err != nil {
+			return err
+		}
 
-	stateMarshal, err := json.Marshal(stateDiff)
-	if err != nil {
-		return err
-	}
+		stateMarshal, err := json.Marshal(stateDiff)
+		if err != nil {
+			return err
+		}
 
-	b.Logf("verkle proof marshalled size: %d", len(vproof))
-	b.Logf("stateDiff marshalled size: %d", len(stateMarshal))
+		b.Logf("verkle proof marshalled size: %d", len(vproof))
+		b.Logf("stateDiff marshalled size: %d", len(stateMarshal))
+	}
 
 	return err
 }

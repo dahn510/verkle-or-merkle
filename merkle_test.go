@@ -94,3 +94,26 @@ func BenchmarkCreateAndSerializeVerkleProof300Byte(b *testing.B) {
 		b.Fatal(err)
 	}
 }
+
+func BenchmarkCreateAndSerializeMerkleProof100000Byte(b *testing.B) {
+	if err := benchCreateAndSerializeMerkleProof(100000, b); err != nil {
+		b.Fatal(err)
+	}
+}
+func BenchmarkCreateAndSerializeVerkleProof100000Byte(b *testing.B) {
+	if err := benchCreateAndSerializeVerkleProof(100000, b); err != nil {
+		b.Fatal(err)
+	}
+}
+
+func BenchmarkCreateAndSerializeMerkleProof10000000Byte(b *testing.B) {
+	if err := benchCreateAndSerializeMerkleProof(10000000, b); err != nil {
+		b.Fatal(err)
+	}
+}
+
+func BenchmarkCreateAndSerializeVerkleProof10000000Byte(b *testing.B) {
+	if err := benchCreateAndSerializeVerkleProof(10000000, b); err != nil {
+		b.Fatal(err)
+	}
+}

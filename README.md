@@ -2,4 +2,4 @@
 benchmark against verkle and merkle 
 
 # parameters
-chunksize: 1024
+chunksize: 32 (verkle tree chunk size)
